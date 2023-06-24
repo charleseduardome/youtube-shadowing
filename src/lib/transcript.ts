@@ -1,4 +1,5 @@
 import { api } from '../lib/axios'
+import { TranscriptConfig, TranscriptResponse } from '../typings/globals'
 
 const RE_YOUTUBE =
   /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
@@ -7,16 +8,6 @@ export class YoutubeTranscriptError extends Error {
   constructor(message: any) {
     super(`[YoutubeTranscript] 🚨 ${message}`);
   }
-}
-
-export interface TranscriptConfig {
-  lang?: string;
-  country?: string;
-}
-export interface TranscriptResponse {
-  text: string;
-  duration: number;
-  offset: number;
 }
 
 /**
