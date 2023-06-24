@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from '../lib/axios'
 
 const RE_YOUTUBE =
   /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
@@ -34,7 +34,7 @@ export class YoutubeTranscript {
   ): Promise<TranscriptResponse[] | undefined> {
     const identifier = this.retrieveVideoId(videoId);
     try {
-      const { data: videoPageBody } = await axios({
+      const { data: videoPageBody } = await api({
         method: "GET",
         responseType: "json",
         url: `https://www.youtube.com/watch?v=${identifier}`,
@@ -45,7 +45,7 @@ export class YoutubeTranscript {
         .split('"')[0];
 
       if (innerTubeApiKey && innerTubeApiKey.length > 0) {
-        const newRes = await axios({
+        const newRes = await api({
           method: "POST",
           responseType: "json",
           data: this.generateRequest(videoPageBody.toString(), config),
