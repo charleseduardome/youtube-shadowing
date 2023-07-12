@@ -55,14 +55,18 @@ export default function Home() {
       <TranscriptionInput
         id='input-url-video-to-transcription'
         className='field-transcription'
-        message={error}/>
+        message={error}
+      />
       <TranscriptionBtn 
         id='btn-video-to-transcription'
         className={loading ? 'btn-transcription--disabled' : 'btn-transcription'}
-        title={loading ? 'Loading..' : 'Transcription'} 
+        title={loading ? 'Loading...' : 'Transcription'} 
         onClick={() => handleTranscript()} 
       />
-        {videoUrl && <VideoPlay videoId={videoId}/>}
+      {videoUrl && <VideoPlay videoId={videoId}/>}
+      <div>
+        
+      </div>
       {transcript.map((t) => <p key={t.offset}>{t.text}</p>)}
     </div>
   )
