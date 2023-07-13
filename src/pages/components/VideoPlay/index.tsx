@@ -1,20 +1,15 @@
 import YouTube, { YouTubeProps } from 'react-youtube';
+import { Options } from 'youtube-player/dist/types';
 
 interface IVideoPlayProps {
-  videoId: string | undefined
+  videoId: string
+  opts: Options
 }
 
-export function VideoPlay({ videoId }: IVideoPlayProps) {
+export function VideoPlay({ videoId, opts }: IVideoPlayProps) {
   const onPlayerReady: YouTubeProps['onReady'] = (event) => {
     event.target.pauseVideo();
   }
-
-  const opts: YouTubeProps['opts'] = {
-    playerVars: {
-      autoplay: 0,
-      rel: 0
-    },
-  };
 
   if(!videoId) return null
 

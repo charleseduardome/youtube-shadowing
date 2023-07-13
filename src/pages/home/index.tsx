@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { AxiosError } from 'axios'
+import { Options } from 'youtube-player/dist/types';
 
 import { api } from '../../lib/axios'
 import { Button as TranscriptionBtn } from '../components/Button'
@@ -9,45 +10,45 @@ import { getDataVideo } from '../../utils/getDataVideo'
 import { TranscriptResponse } from '../../typings/globals'
 
 export default function Home() {
-  const [transcript, setTranscript] = useState<TranscriptResponse[]>([])
+  const [transcriptData, setTranscriptData] = useState<TranscriptResponse[]>([])
   const [error, setError] = useState<string | undefined>()
   const [videoUrl, setVideoUrl] = useState<string | undefined>()
   const [videoId, setVideoId] = useState<string | undefined>()
+  const [opts, setOpts] = useState<Options>({} as Options);
   const [loading, setLoading] = useState<boolean>(false);
 
-  async function handleTranscript() {
+  async function getTranscriptData(videoId: string) {
     try {
       setLoading(true)
       const { data } = await api.get(`/video/${videoId}`)
-      setTranscript(data)
+      setTranscriptData(data)
       setError(undefined)
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
         setError('Invalid url')
         return
       }
-      setTranscript([])
+      setTranscriptData([])
       setError('Invalid url')
     } finally {
       setLoading(false);
     }
   }
 
-  useEffect(() => {
-    const btn = document.getElementById("btn-video-to-transcription") as HTMLButtonElement;
+  async function handleSetCurrentVideo() {
+    const { id, url } = getDataVideo()
 
-    if(!btn) return
+    setVideoUrl(url)
+    setVideoId(id)
+    setOpts({
+      playerVars: {
+        autoplay: 0,
+        start: 0
+      },
+    });
 
-    const updateVideoData = () => {
-      const { id, url } = getDataVideo()
-      setVideoUrl(url)
-      setVideoId(id)
-    }
-    
-    btn.addEventListener('click', updateVideoData)
-
-    return () => btn.removeEventListener('click', updateVideoData)
-  }, [])
+    await getTranscriptData(id)
+  }
 
   return (
     <div className='page-container'>
@@ -61,13 +62,29 @@ export default function Home() {
         id='btn-video-to-transcription'
         className={loading ? 'btn-transcription--disabled' : 'btn-transcription'}
         title={loading ? 'Loading...' : 'Transcription'} 
-        onClick={() => handleTranscript()} 
+        onClick={() => handleSetCurrentVideo()} 
       />
-      {videoUrl && <VideoPlay videoId={videoId}/>}
-      <div>
-        
+      {videoId && <VideoPlay videoId={videoId} opts={opts}/>}
+      {/* TODO Scroll automatic */}
+      <div className='box-transcriptions'>
+        {transcriptData.map((t) => (
+          <div
+            className='transcription-item'
+            key={t.offset}
+            onClick={() => {
+              setOpts({
+                playerVars: {
+                  autoplay: 1,
+                  start: t.offset / 1000,
+                },
+              });
+            }}
+        >
+            <div>{t.text}</div>
+        </div>
+        ))}
       </div>
-      {transcript.map((t) => <p key={t.offset}>{t.text}</p>)}
+    
     </div>
   )
 }
