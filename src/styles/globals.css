@@ -135,9 +135,18 @@ a {
   overflow: auto;
 }
 
-.transcription-item {
+.transcription__item,
+.transcription__item--bold {
   cursor: pointer;
   line-height: 1.8;
 }
+
+.transcription__item--bold {
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration:underline;
+}
+
+
 
 /* YouTube end*/

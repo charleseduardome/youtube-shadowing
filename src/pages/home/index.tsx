@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { AxiosError } from 'axios'
 import { Options } from 'youtube-player/dist/types';
 
@@ -11,8 +11,9 @@ import { TranscriptResponse } from '../../typings/globals'
 
 export default function Home() {
   const [transcriptData, setTranscriptData] = useState<TranscriptResponse[]>([])
+  const [currentText, setCurrentText] = useState<string>('')
+  const [currentTime, setCurrentTime] = useState(0) 
   const [error, setError] = useState<string | undefined>()
-  const [videoUrl, setVideoUrl] = useState<string | undefined>()
   const [videoId, setVideoId] = useState<string | undefined>()
   const [opts, setOpts] = useState<Options>({} as Options);
   const [loading, setLoading] = useState<boolean>(false);
@@ -38,17 +39,30 @@ export default function Home() {
   async function handleSetCurrentVideo() {
     const { id, url } = getDataVideo()
 
-    setVideoUrl(url)
     setVideoId(id)
     setOpts({
       playerVars: {
         autoplay: 0,
-        start: 0
+        start: 0,
+        rel: 0
       },
     });
 
     await getTranscriptData(id)
   }
+
+  useEffect(() => {
+    transcriptData.forEach((transcript) => {
+      const timeStart = transcript?.offset;
+      const timeEnd = transcript?.offset + transcript?.duration
+      const currentTimeMs = currentTime * 1000
+
+      if(currentTimeMs >= timeStart && currentTime <= timeEnd ) {
+        setCurrentText(transcript.text)
+      }
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTime])
 
   return (
     <div className='page-container'>
@@ -64,26 +78,22 @@ export default function Home() {
         title={loading ? 'Loading...' : 'Transcription'} 
         onClick={() => handleSetCurrentVideo()} 
       />
-      {videoId && <VideoPlay videoId={videoId} opts={opts}/>}
+      {videoId && <VideoPlay videoId={videoId} opts={opts} handleOnStateChange={setCurrentTime}/>}
       {/* TODO Scroll automatic */}
-      <div className='box-transcriptions'>
-        {transcriptData.map((t) => (
-          <div
-            className='transcription-item'
-            key={t.offset}
-            onClick={() => {
-              setOpts({
-                playerVars: {
-                  autoplay: 1,
-                  start: t.offset / 1000,
-                },
-              });
-            }}
-        >
-            <div>{t.text}</div>
+      {transcriptData.length > 0 && (
+        <div className='box-transcriptions'>
+          {transcriptData.map((t) => (
+            <div
+              key={t.offset}
+            >
+              <div className={`${currentText === t.text ? 'transcription__item--bold' : 'transcription__item'}`}>
+                {t.text}
+              </div>
+            </div>
+          ))}
         </div>
-        ))}
-      </div>
+      )}
+    
     
     </div>
   )
