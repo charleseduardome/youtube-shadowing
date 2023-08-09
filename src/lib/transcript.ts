@@ -6,7 +6,7 @@ const RE_YOUTUBE =
 
 export class YoutubeTranscriptError extends Error {
   constructor(message: any) {
-    super(`[YoutubeTranscript] 🚨 ${message}`);
+    super(`${message}`);
   }
 }
 
@@ -45,7 +45,7 @@ export class YoutubeTranscript {
         const body = newRes.data;
         if (body.responseContext) {
           if (!body.actions) {
-            throw new Error('Transcript is disabled on this video');
+            throw new YoutubeTranscriptError('Transcript is disabled on this video');
           }
           const transcripts =
             body.actions[0].updateEngagementPanelAction.content
@@ -65,8 +65,8 @@ export class YoutubeTranscript {
           }));
         }
       }
-    } catch (e) {
-      throw new YoutubeTranscriptError(e);
+    } catch {
+      throw new YoutubeTranscriptError('Transcript is disabled on this video');
     }
   }
 

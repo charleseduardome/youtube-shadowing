@@ -6,13 +6,18 @@ export default async function handler(
   res: NextApiResponse,
 ) {
 
-    if (req.method !== 'GET') {
-        return res.status(405).end()
-    }
+  if (req.method !== 'GET') {
+      return res.status(405).end()
+  }
 
   const videoId = req.query.id as string
 
-  const data = await YoutubeTranscript.fetchTranscript(videoId)
+  await YoutubeTranscript.fetchTranscript(videoId)
+  .then(resp => {
+    return res.status(200).json(resp)
+  })
+  .catch(err => { 
+    return res.status(400).send(`${err.message}`);
+  })
 
-  return res.status(200).json(data)
 }

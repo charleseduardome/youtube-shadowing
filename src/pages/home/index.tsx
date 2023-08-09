@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { AxiosError } from 'axios'
 import { Options } from 'youtube-player/dist/types';
 
 import { api } from '../../lib/axios'
@@ -24,13 +23,9 @@ export default function Home() {
       const { data } = await api.get(`/video/${videoId}`)
       setTranscriptData(data)
       setError(undefined)
-    } catch (err) {
-      if (err instanceof AxiosError && err?.response?.data?.message) {
-        setError('Invalid url')
-        return
-      }
+    } catch (err: any) {
+      setError(`${err?.response?.data}`)
       setTranscriptData([])
-      setError('Invalid url')
     } finally {
       setLoading(false);
     }
