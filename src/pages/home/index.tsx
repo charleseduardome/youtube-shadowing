@@ -1,11 +1,11 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { AxiosError } from 'axios'
 import { Options } from 'youtube-player/dist/types';
 
 import { api } from '../../lib/axios'
-import { Button as TranscriptionBtn } from '../components/Button'
-import { Input as TranscriptionInput } from '../components/Input'
-import { VideoPlay } from '../components/VideoPlay'
+import { Button as TranscriptionBtn } from '../../components/Button'
+import { Input as TranscriptionInput } from '../../components/Input'
+import { VideoPlay } from '../../components/VideoPlay'
 import { getDataVideo } from '../../utils/getDataVideo'
 import { TranscriptResponse } from '../../typings/globals'
 
@@ -57,7 +57,11 @@ export default function Home() {
       const timeEnd = transcript?.offset + transcript?.duration
       const currentTimeMs = currentTime * 1000
 
+      
       if(currentTimeMs >= timeStart && currentTime <= timeEnd ) {
+        const textCurrent = document.querySelector(`.box-transcriptions--${timeStart}`) as HTMLHtmlElement
+        textCurrent.scrollIntoView({behavior: "smooth", inline: "center"})
+
         setCurrentText(transcript.text)
       }
     })
@@ -79,12 +83,12 @@ export default function Home() {
         onClick={() => handleSetCurrentVideo()} 
       />
       {videoId && <VideoPlay videoId={videoId} opts={opts} handleOnStateChange={setCurrentTime}/>}
-      {/* TODO Scroll automatic */}
       {transcriptData.length > 0 && (
         <div className='box-transcriptions'>
           {transcriptData.map((t) => (
             <div
               key={t.offset}
+              className={`box-transcriptions--${t.offset}`}
             >
               <div className={`${currentText === t.text ? 'transcription__item--bold' : 'transcription__item'}`}>
                 {t.text}
@@ -93,8 +97,6 @@ export default function Home() {
           ))}
         </div>
       )}
-    
-    
     </div>
   )
 }

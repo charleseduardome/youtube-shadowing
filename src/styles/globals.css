@@ -62,7 +62,7 @@ a {
 .page-container {
   display: flex;
   flex-direction: column;
-  margin-top: 2.5rem;
+  margin-top: 1rem;
   align-items: center;
 }
 
@@ -70,7 +70,7 @@ a {
   height: var(--input-height);
   width: var(--input-width);
   font: 400 1rem "Roboto", sans-serif;
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
 }
 
 .field-transcription__message {
@@ -103,6 +103,17 @@ a {
   
   pointer-events: none;
   cursor: not-allowed;
+}
+
+@media only screen and (min-width: 600px) {
+  .page-container {
+    margin-top: 2.5rem;
+  }
+
+  .field-transcription__input {
+    margin-top: 1.5rem;
+  }
+  
 }
 
 /* Home end*/
