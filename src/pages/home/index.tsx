@@ -37,7 +37,7 @@ export default function Home() {
   }
 
   async function handleSetCurrentVideo() {
-    const { id, url } = getDataVideo()
+    const { id } = getDataVideo()
 
     setVideoId(id)
     setOpts({

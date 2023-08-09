@@ -1,10 +1,10 @@
 export interface TranscriptConfig {
-    lang?: string;
-    country?: string;
+  lang?: string;
+  country?: string;
 }
 
 export interface TranscriptResponse {
-text: string;
-duration: number;
-offset: number;
+  text: string;
+  duration: number;
+  offset: number;
 }
