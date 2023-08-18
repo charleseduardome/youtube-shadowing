@@ -55,7 +55,7 @@ export default function Home() {
       
       if(currentTimeMs >= timeStart && currentTime <= timeEnd ) {
         const textCurrent = document.querySelector(`.box-transcriptions--${timeStart}`) as HTMLHtmlElement
-        textCurrent.scrollIntoView({behavior: "smooth", inline: "center"})
+        textCurrent.scrollIntoView()
 
         setCurrentText(transcript.text)
       }
