@@ -51,6 +51,15 @@ export default function Home() {
     await getTranscriptData(id);
   }
 
+  function handleResetVideo() {
+    setTranscriptData([])
+    setCurrentText("")
+    setCurrentTime(0)
+    setError(undefined)
+    setVideoId(undefined)
+    setLoading(false)
+  }
+
   useEffect(() => {
     transcriptData.forEach((transcript) => {
       const timeStart = transcript?.offset;
@@ -71,20 +80,24 @@ export default function Home() {
 
   return (
     <div className="page-container">
-      <h1>Youtube Shadowing</h1>
-      <TranscriptionInput
-        id="input-url-video-to-transcription"
-        className="field-transcription"
-        message={error}
-      />
-      <TranscriptionBtn
-        id="btn-video-to-transcription"
-        className={
-          loading ? "btn-transcription--disabled" : "btn-transcription"
-        }
-        title={loading ? "Loading..." : "Transcription"}
-        onClick={() => handleSetCurrentVideo()}
-      />
+      <h1 className="title">Youtube Shadowing</h1>
+      {!videoId && (
+        <section className="section-search">
+          <TranscriptionInput
+            id="input-url-video-to-transcription"
+            className="field-transcription"
+            message={error}
+          />
+          <TranscriptionBtn
+            id="btn-video-to-transcription"
+            className={
+              loading ? "btn-transcription--disabled" : "btn-transcription"
+            }
+            title={loading ? "..." : "OK"}
+            onClick={() => handleSetCurrentVideo()}
+          />
+        </section>
+      )}
       {videoId && (
         <VideoPlay
           videoId={videoId}
@@ -92,23 +105,28 @@ export default function Home() {
           handleOnStateChange={setCurrentTime}
         />
       )}
-      <Speech />
       {transcriptData.length > 0 && (
-        <div className="box-transcriptions">
-          {transcriptData.map((t) => (
-            <div key={t.offset} className={`box-transcriptions--${t.offset}`}>
-              <div
-                className={`${
-                  currentText === t.text
-                    ? "transcription__item--bold"
-                    : "transcription__item"
-                }`}
-              >
-                {t.text}
-              </div>
+        <>
+          {/* <Speech /> */}
+          <div className="box-transcriptions">
+            <button className="btn-transcriptions-close" onClick={() => handleResetVideo()}>x</button>
+            <div className="transcriptions">
+              {transcriptData.map((t) => (
+                <div key={t.offset} className={`box-transcriptions--${t.offset}`}>
+                  <div
+                    className={`${
+                      currentText === t.text
+                        ? "transcription__item--bold"
+                        : "transcription__item"
+                    }`}
+                  >
+                    {t.text}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        </>
       )}
     </div>
   );
