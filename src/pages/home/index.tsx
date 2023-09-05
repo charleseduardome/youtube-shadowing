@@ -5,6 +5,7 @@ import { Options } from "youtube-player/dist/types";
 import { api } from "../../lib/axios";
 import { Button as TranscriptionBtn } from "../../components/Button";
 import { Input as TranscriptionInput } from "../../components/Input";
+import { Footer } from "../../components/Footer";
 import { VideoPlay } from "../../components/VideoPlay";
 import { getDataVideo } from "../../utils/getDataVideo";
 import { TranscriptResponse } from "../../typings/globals";
@@ -128,6 +129,7 @@ export default function Home() {
           </div>
         </>
       )}
+      <Footer className="footer"/>
     </div>
   );
 }
