@@ -3,14 +3,11 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 
-interface ISpeechProps {
-  appId: string
-}
+const appId = process.env.SPEECHLY_APP_ID || "";
+const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
+SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
 
-export default function Speech({ appId }:ISpeechProps) {
-  const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
-  SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
-
+export default function Speech() {
   const {
     transcript,
     listening,
