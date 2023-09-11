@@ -108,7 +108,7 @@ export default function Home() {
       )}
       {transcriptData.length > 0 && (
         <>
-          {/* <Speech /> */}
+          <Speech appId={process.env.SPEECHLY_APP_ID || ""}/>
           <div className="box-transcriptions">
             <button className="btn-transcriptions-close" onClick={() => handleResetVideo()}>x</button>
             <div className="transcriptions">
