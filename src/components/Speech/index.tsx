@@ -28,26 +28,32 @@ export default function Speech() {
   }
 
   return (
-    <div>
-      <p>Microphone: {listening ? "on" : "off"}</p>
-      <button
-        onTouchStart={startListening}
-        onMouseDown={startListening}
-        onTouchEnd={SpeechRecognition.stopListening}
-        onMouseUp={SpeechRecognition.stopListening}
-      >
-        Hold to talk
-      </button>
-      <button
-        onTouchStart={resetTranscript}
-        onMouseDown={resetTranscript}
-        onTouchEnd={resetTranscript}
-        onMouseUp={resetTranscript}
-      >
-        Reset
-      </button>
+    <>
+      <div className="box-controls">
+        <p className="mic-control">MIC: {listening ? "ON" : "OFF"}</p>
+        <button
+          className={listening ? "btn-stop" : "btn-record"}
+          onTouchStart={startListening}
+          onMouseDown={startListening}
+          onTouchEnd={SpeechRecognition.stopListening}
+          onMouseUp={SpeechRecognition.stopListening}
+        >
+          {listening ? "STOP" : "RECORD"}
+        </button>
+        <button
+        className="btn-reset"
+          onTouchStart={resetTranscript}
+          onMouseDown={resetTranscript}
+          onTouchEnd={resetTranscript}
+          onMouseUp={resetTranscript}
+        >
+          RESET
+        </button>
 
-      <p>{transcript}</p>
-    </div>
+      </div>
+      <div className="box-current-transcript">
+        <strong>{transcript}</strong>
+      </div>
+    </>
   );
 }
