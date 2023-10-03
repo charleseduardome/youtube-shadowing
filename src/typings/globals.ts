@@ -8,3 +8,8 @@ export interface TranscriptResponse {
   duration: number;
   offset: number;
 }
+
+export interface IVideoContextData {
+  videoId: string | undefined
+  setVideoId: React.Dispatch<React.SetStateAction<string | undefined>>
+}
