@@ -1,6 +1,7 @@
-import { useRef } from 'react'
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { Options } from 'youtube-player/dist/types';
+
+import { useVideo } from '../../hooks/useVideo'
 
 interface IVideoPlayProps {
   videoId: string
@@ -9,9 +10,13 @@ interface IVideoPlayProps {
 }
 
 export function VideoPlay({ videoId, opts, handleOnStateChange }: IVideoPlayProps) {
-  const currentTimeRef = useRef<ReturnType<typeof setInterval>>();
+  const { 
+    setPlayer,
+    currentTimeRef,
+  } = useVideo()
 
   const onPlayerReady: YouTubeProps['onReady'] = (event) => {
+    setPlayer(event.target)
     event.target.pauseVideo()
   }
 
@@ -27,5 +32,15 @@ export function VideoPlay({ videoId, opts, handleOnStateChange }: IVideoPlayProp
 
   if(!videoId) return null
 
-  return <YouTube className={"youtubeContainer"} videoId={videoId} opts={opts} onReady={onPlayerReady} onStateChange={onStateChange}/>;
+  return (
+  <>
+    <YouTube 
+      className={"youtubeContainer"} 
+      videoId={videoId} 
+      opts={opts} 
+      onReady={onPlayerReady} 
+      onStateChange={onStateChange}
+    />
+  </>
+  )
 }

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Options } from "youtube-player/dist/types";
 
 import VideoContext from '../contexts/VideoContext'
-import { getDataVideo } from "../utils/getDataVideo";
 import { api } from "../lib/axios";
+import { getDataVideo } from "../utils/getDataVideo";
 import { TranscriptResponse } from "../typings/globals";
 
 interface VideoProviderProps {
@@ -20,6 +20,8 @@ const VideoProvider = ({ children }: VideoProviderProps) => {
   const [error, setError] = useState<string | undefined>();
   const [opts, setOpts] = useState<Options>({} as Options);
   const [loading, setLoading] = useState<boolean>(false);
+  const [player, setPlayer] = useState<any>();
+  const currentTimeRef = useRef<ReturnType<typeof setInterval>>( {} as ReturnType<typeof setInterval>);
 
   async function getTranscriptData(videoId: string) {
     try {
@@ -59,6 +61,14 @@ const VideoProvider = ({ children }: VideoProviderProps) => {
     setLoading(false)
   }
 
+  const onPlayHandler = () => {
+    player.playVideo();
+  };
+
+  const onPauseHandler = () => {
+    player.pauseVideo();
+  };
+
   return(
     <VideoContext.Provider value={{
       transcriptData,
@@ -77,6 +87,11 @@ const VideoProvider = ({ children }: VideoProviderProps) => {
       setLoading,
       handleSetCurrentVideo,
       handleResetVideo,
+      player,
+      setPlayer,
+      currentTimeRef,
+      onPlayHandler,
+      onPauseHandler
     }}
     >
       { children }

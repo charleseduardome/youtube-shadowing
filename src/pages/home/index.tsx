@@ -1,10 +1,13 @@
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 
 import { Button as TranscriptionBtn } from "../../components/Button";
 import { Input as TranscriptionInput } from "../../components/Input";
 import { Footer } from "../../components/Footer";
 import { VideoPlay } from "../../components/VideoPlay";
 import { useVideo } from '../../hooks/useVideo'
+
+const Speech = dynamic(() => import("../../components/Speech"), { ssr: false });
 
 export default function Home() {
   const {
@@ -68,7 +71,7 @@ export default function Home() {
       )}
       {transcriptData.length > 0 && (
         <>
-          {/* <Speech /> */}
+          <Speech />
           <div className="box-transcriptions">
             <button className="btn-transcriptions-close" onClick={() => handleResetVideo()}>x</button>
             <div className="transcriptions">

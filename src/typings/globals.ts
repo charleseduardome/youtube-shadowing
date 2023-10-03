@@ -1,3 +1,4 @@
+import React from 'react';
 import { Options } from "youtube-player/dist/types";
 
 export interface TranscriptConfig {
@@ -27,5 +28,10 @@ export interface IVideoContextData {
   loading: boolean
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
   handleSetCurrentVideo(): void,
-  handleResetVideo(): void
+  handleResetVideo(): void,
+  player: any,
+  setPlayer: React.Dispatch<React.SetStateAction<any>>
+  currentTimeRef: React.MutableRefObject<ReturnType<typeof setInterval>>
+  onPlayHandler(): void
+  onPauseHandler(): void
 }
