@@ -1,11 +1,4 @@
-import { createSpeechlySpeechRecognition } from "@speechly/speech-recognition-polyfill";
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
-
-const appId = process.env.SPEECHLY_APP_ID || "";
-const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
-SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
+import { useSpeech } from '../../hooks/useSpeech'
 
 export default function Speech() {
   const {
@@ -14,10 +7,9 @@ export default function Speech() {
     browserSupportsSpeechRecognition,
     isMicrophoneAvailable,
     resetTranscript,
-  } = useSpeechRecognition();
-
-  const startListening = () =>
-    SpeechRecognition.startListening({ continuous: true, language: "en-US" });
+    startListening,
+    SpeechRecognition,
+  } = useSpeech();
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser `&lsquo;` support speech recognition.</span>;

@@ -35,3 +35,15 @@ export interface IVideoContextData {
   onPlayHandler(): void
   onPauseHandler(): void
 }
+
+export interface ISpeechContextData {
+  transcript: string
+  listening: boolean
+  browserSupportsSpeechRecognition: boolean
+  isMicrophoneAvailable: boolean
+  resetTranscript: () => void
+  startListening: any
+  SpeechRecognition: any
+  interimTranscript?: string
+  finalTranscript?: string
+}

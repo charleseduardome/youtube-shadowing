@@ -1,0 +1,46 @@
+import React from "react";
+
+import { createSpeechlySpeechRecognition } from "@speechly/speech-recognition-polyfill";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+
+import SpeechContext from '../contexts/SpeechContext'
+
+interface SpeechProviderProps {
+  children?: React.ReactNode
+}
+
+const appId = process.env.SPEECHLY_APP_ID || "";
+const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
+SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
+
+const SpeechProvider = ({ children }: SpeechProviderProps) => {
+  const {
+    transcript,
+    listening,
+    browserSupportsSpeechRecognition,
+    isMicrophoneAvailable,
+    resetTranscript,
+  } = useSpeechRecognition()
+
+  const startListening = () =>
+  SpeechRecognition.startListening({ continuous: true, language: "en-US" });
+
+  return(
+    <SpeechContext.Provider value={{
+      transcript,
+      listening,
+      browserSupportsSpeechRecognition,
+      isMicrophoneAvailable,
+      resetTranscript,
+      startListening,
+      SpeechRecognition,
+    }}
+    >
+      { children }
+    </SpeechContext.Provider>
+  )
+}
+
+export default SpeechProvider

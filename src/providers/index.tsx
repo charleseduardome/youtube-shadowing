@@ -1,6 +1,7 @@
 import React from 'react';
 
 import VideoProvider from './video';
+import SpeechProvider from './speech';
 
 type ProviderProps = {
   children?: React.ReactNode
@@ -8,7 +9,9 @@ type ProviderProps = {
 
 const AppProvider: React.FC<ProviderProps> = ({ children }) => (
   <VideoProvider>
-    {children}
+    <SpeechProvider>
+      {children}
+    </SpeechProvider>
   </VideoProvider>
 );
 
