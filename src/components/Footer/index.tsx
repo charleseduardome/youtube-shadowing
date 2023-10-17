@@ -11,8 +11,8 @@ export function Footer({
     <div className={className}>
       <p>
         Developed by <span className="footer__name">Charles Santos</span> | 
-        &nbsp;<a target="_blank" href="https://www.linkedin.com/in/charleseduardome/">Linkedin</a> | 
-        &nbsp;<a target="_blank" href="https://github.com/charleseduardome">Github</a></p>
+        &nbsp;<a target="_blank" href="https://www.linkedin.com/in/charleseduardome/">LinkedIn</a> | 
+        &nbsp;<a target="_blank" href="https://github.com/charleseduardome">GitHub</a></p>
     </div>
   );
 }
