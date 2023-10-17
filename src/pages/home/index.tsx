@@ -27,6 +27,20 @@ export default function Home() {
 
   const { SpeechRecognition, resetTranscript } = useSpeech();
 
+  function focusURLVideoInput(id: string) {
+    const URLVideoInput = document.getElementById(id) as HTMLInputElement;
+
+    if(URLVideoInput) {
+      URLVideoInput.focus();
+    }
+  }
+
+  function resetVideo() {
+    SpeechRecognition.stopListening()
+    resetTranscript()
+    handleResetVideo()
+  }
+
   useEffect(() => {
     transcriptData.forEach((transcript) => {
       const timeStart = transcript?.offset;
@@ -45,11 +59,10 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTime]);
 
-  function resetVideo() {
-    SpeechRecognition.stopListening()
-    resetTranscript()
-    handleResetVideo()
-  }
+  useEffect(() => {
+    focusURLVideoInput('input-url-video-to-transcription')
+  }, [handleResetVideo])
+
   return (
     <div className="page-container">
       <h1 className="title">Youtube Shadowing</h1>
@@ -59,6 +72,7 @@ export default function Home() {
             id="input-url-video-to-transcription"
             className="field-transcription"
             message={error}
+            dispatch={() => handleSetCurrentVideo()}
           />
           <TranscriptionBtn
             id="btn-video-to-transcription"
