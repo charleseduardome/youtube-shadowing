@@ -5,7 +5,8 @@ import { Button as TranscriptionBtn } from "../../components/Button";
 import { Input as TranscriptionInput } from "../../components/Input";
 import { Footer } from "../../components/Footer";
 import { VideoPlay } from "../../components/VideoPlay";
-import { useVideo } from '../../hooks/useVideo'
+import { useVideo } from '../../hooks/useVideo';
+import { useSpeech } from '../../hooks/useSpeech';
 
 const Speech = dynamic(() => import("../../components/Speech"), { ssr: false });
 
@@ -23,6 +24,8 @@ export default function Home() {
     handleSetCurrentVideo,
     handleResetVideo,
   } = useVideo()
+
+  const { SpeechRecognition, resetTranscript } = useSpeech();
 
   useEffect(() => {
     transcriptData.forEach((transcript) => {
@@ -42,6 +45,11 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTime]);
 
+  function resetVideo() {
+    SpeechRecognition.stopListening()
+    resetTranscript()
+    handleResetVideo()
+  }
   return (
     <div className="page-container">
       <h1 className="title">Youtube Shadowing</h1>
@@ -73,7 +81,7 @@ export default function Home() {
         <>
           <Speech />
           <div className="box-transcriptions">
-            <button className="btn-transcriptions-close" onClick={() => handleResetVideo()}>x</button>
+            <button className="btn-transcriptions-close" onClick={() => resetVideo()}>x</button>
             <div className="transcriptions">
               {transcriptData.map((t) => (
                 <div key={t.offset} className={`box-transcriptions--${t.offset}`}>

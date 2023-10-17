@@ -2,6 +2,7 @@ import YouTube, { YouTubeProps } from 'react-youtube';
 import { Options } from 'youtube-player/dist/types';
 
 import { useVideo } from '../../hooks/useVideo'
+import { useSpeech } from '../../hooks/useSpeech'
 
 interface IVideoPlayProps {
   videoId: string
@@ -15,6 +16,8 @@ export function VideoPlay({ videoId, opts, handleOnStateChange }: IVideoPlayProp
     currentTimeRef,
   } = useVideo()
 
+  const { SpeechRecognition } = useSpeech();
+
   const onPlayerReady: YouTubeProps['onReady'] = (event) => {
     setPlayer(event.target)
     event.target.pauseVideo()
@@ -22,6 +25,8 @@ export function VideoPlay({ videoId, opts, handleOnStateChange }: IVideoPlayProp
 
   const onStateChange: YouTubeProps['onStateChange'] = (event) => {
     if (event.data === YouTube.PlayerState.PLAYING) {
+      SpeechRecognition.stopListening()
+
       currentTimeRef.current = setInterval(function() {
         handleOnStateChange(Number(event.target.getCurrentTime()))
       }, 500);

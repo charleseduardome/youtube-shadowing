@@ -1,4 +1,5 @@
 import { useSpeech } from '../../hooks/useSpeech'
+import { useVideo } from '../../hooks/useVideo'
 
 export default function Speech() {
   const {
@@ -11,6 +12,8 @@ export default function Speech() {
     SpeechRecognition,
   } = useSpeech();
 
+  const { onPauseHandler } = useVideo()
+
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser `&lsquo;` support speech recognition.</span>;
   }
@@ -19,14 +22,19 @@ export default function Speech() {
     return <span>You not acessed the microphone.</span>;
   }
 
+  function handleStartListening() {
+    onPauseHandler()
+    startListening()
+  }
+
   return (
     <>
       <div className="box-controls">
         <p className="mic-control">MIC: {listening ? "ON" : "OFF"}</p>
         <button
           className={listening ? "btn-stop" : "btn-record"}
-          onTouchStart={startListening}
-          onMouseDown={startListening}
+          onTouchStart={handleStartListening}
+          onMouseDown={handleStartListening}
           onTouchEnd={SpeechRecognition.stopListening}
           onMouseUp={SpeechRecognition.stopListening}
         >
