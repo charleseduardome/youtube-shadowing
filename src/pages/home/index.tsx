@@ -66,7 +66,7 @@ export default function Home() {
   return (
     <div className="page-container">
       <h1 className="title">Youtube Shadowing</h1>
-      {!videoId && (
+      {transcriptData.length < 1 && (
         <section className="section-search">
           <TranscriptionInput
             id="input-url-video-to-transcription"
@@ -84,7 +84,7 @@ export default function Home() {
           />
         </section>
       )}
-      {videoId && (
+      {videoId && transcriptData.length > 0 && (
         <VideoPlay
           videoId={videoId}
           opts={opts}
