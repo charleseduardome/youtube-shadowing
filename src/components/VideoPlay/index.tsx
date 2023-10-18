@@ -16,7 +16,7 @@ export function VideoPlay({ videoId, opts, handleOnStateChange }: IVideoPlayProp
     currentTimeRef,
   } = useVideo()
 
-  const { SpeechRecognition } = useSpeech();
+  const { stopListening } = useSpeech();
 
   const onPlayerReady: YouTubeProps['onReady'] = (event) => {
     setPlayer(event.target)
@@ -25,7 +25,7 @@ export function VideoPlay({ videoId, opts, handleOnStateChange }: IVideoPlayProp
 
   const onStateChange: YouTubeProps['onStateChange'] = (event) => {
     if (event.data === YouTube.PlayerState.PLAYING) {
-      SpeechRecognition.stopListening()
+      stopListening()
 
       currentTimeRef.current = setInterval(function() {
         handleOnStateChange(Number(event.target.getCurrentTime()))

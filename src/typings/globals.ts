@@ -1,5 +1,6 @@
 import React from 'react';
 import { Options } from "youtube-player/dist/types";
+import type { ListeningOptions } from "react-speech-recognition";
 
 export interface TranscriptConfig {
   lang?: string;
@@ -42,8 +43,8 @@ export interface ISpeechContextData {
   browserSupportsSpeechRecognition: boolean
   isMicrophoneAvailable: boolean
   resetTranscript: () => void
-  startListening: any
-  SpeechRecognition: any
+  startListening(options?: ListeningOptions): void;
+  stopListening: () => void;
   interimTranscript?: string
   finalTranscript?: string
 }

@@ -25,7 +25,7 @@ export default function Home() {
     handleResetVideo,
   } = useVideo()
 
-  const { SpeechRecognition, resetTranscript } = useSpeech();
+  const { stopListening, resetTranscript } = useSpeech();
 
   function focusURLVideoInput(id: string) {
     const URLVideoInput = document.getElementById(id) as HTMLInputElement;
@@ -36,7 +36,7 @@ export default function Home() {
   }
 
   function resetVideo() {
-    SpeechRecognition.stopListening()
+    stopListening()
     resetTranscript()
     handleResetVideo()
   }

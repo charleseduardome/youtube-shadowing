@@ -2,7 +2,7 @@ import React from "react";
 
 import { createSpeechlySpeechRecognition } from "@speechly/speech-recognition-polyfill";
 import SpeechRecognition, {
-  useSpeechRecognition,
+  useSpeechRecognition
 } from "react-speech-recognition";
 
 import SpeechContext from '../contexts/SpeechContext'
@@ -24,8 +24,21 @@ const SpeechProvider = ({ children }: SpeechProviderProps) => {
     resetTranscript,
   } = useSpeechRecognition()
 
-  const startListening = () =>
-  SpeechRecognition.startListening({ continuous: true, language: "en-US" });
+  const startListening = () => {
+    SpeechRecognition.startListening({ continuous: true, language: "en-US" });
+  }
+
+  const stopListening = () => {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAppleDevice = navigator.userAgent.includes('Macintosh');
+
+    if(isIOS || isAppleDevice) {
+      try{ startListening() }
+      catch(err) { }
+    }
+    
+    SpeechRecognition.stopListening();
+  }
 
   return(
     <SpeechContext.Provider value={{
@@ -35,7 +48,7 @@ const SpeechProvider = ({ children }: SpeechProviderProps) => {
       isMicrophoneAvailable,
       resetTranscript,
       startListening,
-      SpeechRecognition,
+      stopListening,
     }}
     >
       { children }

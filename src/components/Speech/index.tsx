@@ -9,7 +9,7 @@ export default function Speech() {
     isMicrophoneAvailable,
     resetTranscript,
     startListening,
-    SpeechRecognition,
+    stopListening,
   } = useSpeech();
 
   const { onPauseHandler } = useVideo()
@@ -27,6 +27,10 @@ export default function Speech() {
     startListening()
   }
 
+  function handleStopListening() {
+    stopListening()
+  }
+
   return (
     <>
       <div className="box-controls">
@@ -35,8 +39,8 @@ export default function Speech() {
           className={listening ? "btn-stop" : "btn-record"}
           onTouchStart={handleStartListening}
           onMouseDown={handleStartListening}
-          onTouchEnd={SpeechRecognition.stopListening}
-          onMouseUp={SpeechRecognition.stopListening}
+          onTouchEnd={handleStopListening}
+          onMouseUp={handleStopListening}
         >
           {listening ? "STOP" : "RECORD"}
         </button>
