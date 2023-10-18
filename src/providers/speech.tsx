@@ -29,9 +29,6 @@ const SpeechProvider = ({ children }: SpeechProviderProps) => {
     const isAppleDevice = navigator.userAgent.includes('Macintosh');
     const speechStart = SpeechRecognition.startListening({ continuous: true, language: "en-US" })
     
-    if(listening) return
-    console.log('@@@ stated')
-
     if(isIOS || isAppleDevice) {
       try { speechStart }
       catch(err) { }
@@ -42,7 +39,6 @@ const SpeechProvider = ({ children }: SpeechProviderProps) => {
 
   const stopListening = () => {
     if(!listening) return
-    console.log('@@@ paused')
     SpeechRecognition.stopListening();
   }
 
