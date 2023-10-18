@@ -27,16 +27,22 @@ const SpeechProvider = ({ children }: SpeechProviderProps) => {
   const startListening = () => {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const isAppleDevice = navigator.userAgent.includes('Macintosh');
+    const speechStart = SpeechRecognition.startListening({ continuous: true, language: "en-US" })
+    
+    if(listening) return
+    console.log('@@@ stated')
 
     if(isIOS || isAppleDevice) {
-      try { SpeechRecognition.startListening({ continuous: true, language: "en-US" }) }
+      try { speechStart }
       catch(err) { }
     }
 
-    SpeechRecognition.startListening({ continuous: true, language: "en-US" });
+    speechStart;
   }
 
   const stopListening = () => {
+    if(!listening) return
+    console.log('@@@ paused')
     SpeechRecognition.stopListening();
   }
 
