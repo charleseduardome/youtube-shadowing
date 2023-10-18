@@ -38,7 +38,6 @@ const SpeechProvider = ({ children }: SpeechProviderProps) => {
   }
 
   const stopListening = () => {
-    if(!listening) return
     SpeechRecognition.stopListening();
   }
 
