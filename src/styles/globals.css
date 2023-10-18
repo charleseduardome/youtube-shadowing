@@ -86,6 +86,7 @@ a {
   height: var(--input-height);
   width: var(--input-width);
   font: 400 1rem "Kanit", sans-serif;
+  border-radius: 0;
   border: 0;
   padding: 0.25rem;
 }
@@ -134,7 +135,7 @@ a {
   flex-direction: column;
   position: static;
   height: 100px;
-  width: 100%;
+  width: 98%;
   max-width: 500px;
   border: 1px solid var(--yellow-500);
   overflow: auto;
@@ -147,7 +148,7 @@ a {
   justify-content: center;
   align-items: center;
   height: 60px;
-  width: 100%;
+  width: 98%;
   max-width: 500px;
   border: 0;
   overflow: auto;
