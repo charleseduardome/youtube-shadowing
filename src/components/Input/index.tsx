@@ -14,6 +14,7 @@ export function Input({
   message,
   className,
   dispatch,
+  ...rest
 }: InputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -36,7 +37,11 @@ export function Input({
   return (
     <div className={className}>
       {label && <p className={`${className}__label`}>{label}</p>}
-      <input className={`${className}__input`} id={id} ref={inputRef} />
+      <input
+        className={`${className}__input`} 
+        id={id} ref={inputRef} 
+        {...rest}
+      />
       {message && <p className={`${className}__message`}>{message}</p>}
     </div>
   );

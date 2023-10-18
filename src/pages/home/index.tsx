@@ -73,6 +73,7 @@ export default function Home() {
             className="field-transcription"
             message={error}
             dispatch={() => handleSetCurrentVideo()}
+            placeholder="YouTube Video URL"
           />
           <TranscriptionBtn
             id="btn-video-to-transcription"

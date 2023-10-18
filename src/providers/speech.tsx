@@ -25,18 +25,18 @@ const SpeechProvider = ({ children }: SpeechProviderProps) => {
   } = useSpeechRecognition()
 
   const startListening = () => {
-    SpeechRecognition.startListening({ continuous: true, language: "en-US" });
-  }
-
-  const stopListening = () => {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const isAppleDevice = navigator.userAgent.includes('Macintosh');
 
     if(isIOS || isAppleDevice) {
-      try{ startListening() }
+      try { SpeechRecognition.startListening({ continuous: true, language: "en-US" }) }
       catch(err) { }
     }
-    
+
+    SpeechRecognition.startListening({ continuous: true, language: "en-US" });
+  }
+
+  const stopListening = () => {
     SpeechRecognition.stopListening();
   }
 

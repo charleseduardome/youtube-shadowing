@@ -15,7 +15,7 @@ export default function Speech() {
   const { onPauseHandler } = useVideo()
 
   if (!browserSupportsSpeechRecognition) {
-    return <span>Browser `&lsquo;` support speech recognition.</span>;
+    return <span>Browser doesn&lsquo;t support speech recognition.</span>;
   }
 
   if (!isMicrophoneAvailable) {
