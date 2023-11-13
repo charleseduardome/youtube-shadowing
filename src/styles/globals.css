@@ -129,7 +129,6 @@ a {
   }
 }
 
-
 .box-transcriptions {
   display: flex;
   flex-direction: column;
@@ -258,4 +257,16 @@ a {
 
 /* Footer end*/
 
+/* About */
 
+.about {
+  max-width: 700px;
+  margin: 50px 20px 0 20px;
+}
+
+.about p {
+  font-size: 1.25rem;
+  text-align: justify;
+}
+
+/* About end*/

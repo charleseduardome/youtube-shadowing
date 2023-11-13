@@ -5,8 +5,9 @@ import { Button as TranscriptionBtn } from "../../components/Button";
 import { Input as TranscriptionInput } from "../../components/Input";
 import { Footer } from "../../components/Footer";
 import { VideoPlay } from "../../components/VideoPlay";
-import { useVideo } from '../../hooks/useVideo';
-import { useSpeech } from '../../hooks/useSpeech';
+import { About } from "../../components/About";
+import { useVideo } from "../../hooks/useVideo";
+import { useSpeech } from "../../hooks/useSpeech";
 
 const Speech = dynamic(() => import("../../components/Speech"), { ssr: false });
 
@@ -23,22 +24,22 @@ export default function Home() {
     loading,
     handleSetCurrentVideo,
     handleResetVideo,
-  } = useVideo()
+  } = useVideo();
 
   const { stopListening, resetTranscript } = useSpeech();
 
   function focusURLVideoInput(id: string) {
     const URLVideoInput = document.getElementById(id) as HTMLInputElement;
 
-    if(URLVideoInput) {
+    if (URLVideoInput) {
       URLVideoInput.focus();
     }
   }
 
   function resetVideo() {
-    stopListening()
-    resetTranscript()
-    handleResetVideo()
+    stopListening();
+    resetTranscript();
+    handleResetVideo();
   }
 
   useEffect(() => {
@@ -60,30 +61,33 @@ export default function Home() {
   }, [currentTime]);
 
   useEffect(() => {
-    focusURLVideoInput('input-url-video-to-transcription')
-  }, [handleResetVideo])
+    focusURLVideoInput("input-url-video-to-transcription");
+  }, [handleResetVideo]);
 
   return (
     <div className="page-container">
       <h1 className="title">Youtube Shadowing</h1>
       {transcriptData.length < 1 && (
-        <section className="section-search">
-          <TranscriptionInput
-            id="input-url-video-to-transcription"
-            className="field-transcription"
-            message={error}
-            dispatch={() => handleSetCurrentVideo()}
-            placeholder="YouTube Video URL"
-          />
-          <TranscriptionBtn
-            id="btn-video-to-transcription"
-            className={
-              loading ? "btn-transcription--disabled" : "btn-transcription"
-            }
-            title={loading ? "..." : "OK"}
-            onClick={() => handleSetCurrentVideo()}
-          />
-        </section>
+        <>
+          <section className="section-search">
+            <TranscriptionInput
+              id="input-url-video-to-transcription"
+              className="field-transcription"
+              message={error}
+              dispatch={() => handleSetCurrentVideo()}
+              placeholder="YouTube Video URL"
+            />
+            <TranscriptionBtn
+              id="btn-video-to-transcription"
+              className={
+                loading ? "btn-transcription--disabled" : "btn-transcription"
+              }
+              title={loading ? "..." : "OK"}
+              onClick={() => handleSetCurrentVideo()}
+            />
+          </section>
+          <About className="about" />
+        </>
       )}
       {videoId && transcriptData.length > 0 && (
         <VideoPlay
@@ -96,10 +100,18 @@ export default function Home() {
         <>
           <Speech />
           <div className="box-transcriptions">
-            <button className="btn-transcriptions-close" onClick={() => resetVideo()}>x</button>
+            <button
+              className="btn-transcriptions-close"
+              onClick={() => resetVideo()}
+            >
+              x
+            </button>
             <div className="transcriptions">
               {transcriptData.map((t) => (
-                <div key={t.offset} className={`box-transcriptions--${t.offset}`}>
+                <div
+                  key={t.offset}
+                  className={`box-transcriptions--${t.offset}`}
+                >
                   <div
                     className={`${
                       currentText === t.text
@@ -115,7 +127,7 @@ export default function Home() {
           </div>
         </>
       )}
-      <Footer className="footer"/>
+      <Footer className="footer" />
     </div>
   );
 }
