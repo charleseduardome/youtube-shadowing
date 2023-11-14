@@ -257,16 +257,34 @@ a {
 
 /* Footer end*/
 
-/* About */
+/* Onboarding */
 
-.about {
-  max-width: 700px;
-  margin: 50px 20px 0 20px;
+.tooltipCustomClass {
+  font: 400 1rem "Kanit", sans-serif;
+  color: black;
+  margin-left: 0;
+  box-shadow: rgba(33, 33, 33, 0.8) 0px 0px 0px 0px,
+    rgba(33, 33, 33, 0.5) 0px 0px 0px 5000px;
 }
 
-.about p {
-  font-size: 1.25rem;
-  text-align: justify;
+.introjs-tooltipReferenceLayer * {
+  font-family: "Kanit", sans-serif;
 }
 
-/* About end*/
+.introjs-helperLayer {
+  box-shadow: rgb(33 33 33 / 0%) 0px 0px 1px 2px,
+    rgba(33, 33, 33, 0.5) 0px 0px 0px 5000px;
+}
+
+.introjs-prevbutton,
+.introjs-nextbutton,
+.introjs-donebutton,
+.introjs-button:focus {
+  border: none;
+}
+
+.introjs-button:focus {
+  box-shadow: 0 0 0 0.2rem #eba417;
+}
+
+/* Onboarding end*/

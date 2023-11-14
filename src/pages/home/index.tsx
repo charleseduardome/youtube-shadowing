@@ -5,7 +5,7 @@ import { Button as TranscriptionBtn } from "../../components/Button";
 import { Input as TranscriptionInput } from "../../components/Input";
 import { Footer } from "../../components/Footer";
 import { VideoPlay } from "../../components/VideoPlay";
-import { About } from "../../components/About";
+import { Onboarding } from "../../components/Onboarding";
 import { useVideo } from "../../hooks/useVideo";
 import { useSpeech } from "../../hooks/useSpeech";
 
@@ -86,7 +86,7 @@ export default function Home() {
               onClick={() => handleSetCurrentVideo()}
             />
           </section>
-          <About className="about" />
+          <Onboarding />
         </>
       )}
       {videoId && transcriptData.length > 0 && (
