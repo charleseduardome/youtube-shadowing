@@ -68,26 +68,23 @@ export default function Home() {
     <div className="page-container">
       <h1 className="title">Youtube Shadowing</h1>
       {transcriptData.length < 1 && (
-        <>
-          <section className="section-search">
-            <TranscriptionInput
-              id="input-url-video-to-transcription"
-              className="field-transcription"
-              message={error}
-              dispatch={() => handleSetCurrentVideo()}
-              placeholder="YouTube Video URL"
-            />
-            <TranscriptionBtn
-              id="btn-video-to-transcription"
-              className={
-                loading ? "btn-transcription--disabled" : "btn-transcription"
-              }
-              title={loading ? "..." : "OK"}
-              onClick={() => handleSetCurrentVideo()}
-            />
-          </section>
-          <Onboarding />
-        </>
+        <section className="section-search">
+          <TranscriptionInput
+            id="input-url-video-to-transcription"
+            className="field-transcription"
+            message={error}
+            dispatch={() => handleSetCurrentVideo()}
+            placeholder="YouTube Video URL"
+          />
+          <TranscriptionBtn
+            id="btn-video-to-transcription"
+            className={
+              loading ? "btn-transcription--disabled" : "btn-transcription"
+            }
+            title={loading ? "..." : "OK"}
+            onClick={() => handleSetCurrentVideo()}
+          />
+        </section>
       )}
       {videoId && transcriptData.length > 0 && (
         <VideoPlay
@@ -128,6 +125,7 @@ export default function Home() {
         </>
       )}
       <Footer className="footer" />
+      <Onboarding />
     </div>
   );
 }

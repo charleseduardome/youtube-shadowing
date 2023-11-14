@@ -7,16 +7,13 @@ const Steps = dynamic(() => import("intro.js-react").then((mod) => mod.Steps), {
 
 export function Onboarding() {
   const [stepEnabled, setStepEnabled] = useState(true);
-  const [onboardingEnabled, setOnboardingEnabled] = useState(true);
+  const [onboardingDisabled, setOnboardingDisabled] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const doneTour = localStorage.getItem("onboardingEnabled") === "yeah!";
-      if (doneTour) setOnboardingEnabled(false);
-    }
+    setOnboardingDisabled(
+      localStorage.getItem("onboardingEnabled") === "yeah!"
+    );
   }, []);
-
-  if (!onboardingEnabled) null;
 
   const onExit = () => {
     setStepEnabled(false);
@@ -24,6 +21,7 @@ export function Onboarding() {
 
   const onComplete = () => {
     localStorage.setItem("onboardingEnabled", "yeah!");
+    setOnboardingDisabled(true);
   };
 
   const steps = [
@@ -32,20 +30,17 @@ export function Onboarding() {
       intro:
         "Shadowing in English is repeating a native speaker's words in real-time, focusing on mimicking pronunciation, intonation, and rhythm. It enhances language fluency and listening skills by synchronizing speech and comprehension.",
       tooltipClass: "tooltipCustomClass",
-      tooltipPosition: "bottom-center",
     },
     {
       element: ".field-transcription",
       title: "Choose your video",
       intro: "Copy the link of your video on YouTube and paste the URL here.",
       tooltipClass: "tooltipCustomClass",
-      tooltipPosition: "bottom-center",
     },
     {
       element: ".btn-transcription",
       intro: "You can either click the OK button or press ENTER.",
       tooltipClass: "tooltipCustomClass",
-      tooltipPosition: "bottom-center",
     },
   ];
 
@@ -65,7 +60,7 @@ export function Onboarding() {
   };
 
   return (
-    onboardingEnabled && (
+    !onboardingDisabled && (
       <Steps
         enabled={stepEnabled || true}
         steps={steps}
