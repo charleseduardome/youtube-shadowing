@@ -38,7 +38,6 @@ export function Onboarding() {
       tooltipClass: "tooltipCustomClass",
     },
     {
-      element: ".btn-transcription",
       intro: "You can either click the OK button or press ENTER.",
       tooltipClass: "tooltipCustomClass",
     },
